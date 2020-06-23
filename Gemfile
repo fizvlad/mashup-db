@@ -56,3 +56,6 @@ gem 'rubocop-rails', '~> 2.6'
 
 # YAML documentation system
 gem 'yaml', '~> 0.1.0'
+
+# Administrating
+gem 'rails_admin', '~> 2.0'
