@@ -40,6 +40,8 @@ Credetionals example in YAML (production config should also contain `secret_key_
 db:
   login: lgn
   password: psswrd
+vk:
+  api_key: key
 ```
 
 Credetionals will be encoded and indexed by git. Decoding is performed during runtime using `config/master.key`.
