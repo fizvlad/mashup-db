@@ -1,0 +1,19 @@
+buttercup:
+  id: 1
+  title: ButterCup
+  artist_id: 1
+
+august:
+  id: 2
+  title: Август
+  artist_id: 3
+
+hydrogen:
+  id: 3
+  title: Hydrogen
+  artist_id: 2
+
+crystals:
+  id: 4
+  title: Crystals
+  artist_id: 2
