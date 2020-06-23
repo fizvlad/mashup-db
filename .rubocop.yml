@@ -1,0 +1,62 @@
+inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-rails
+  - rubocop-performance
+
+AllCops:
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+  ExtraDetails: false
+  TargetRubyVersion: 2.6
+  Exclude:
+    - bin/**/*
+    - contrib/**/*
+    - config/**/*
+    - db/**/*
+    - node_modules/**/*
+    - tmp/**/*
+    - Capfile
+    - Gemfile
+    - Rakefile
+
+# Although the best practice is 'lf', this shoulfd be handled by git
+Layout/EndOfLine:
+  Enabled: false
+
+# Just enough
+Layout/LineLength:
+  Max: 100
+
+# RoR actively uses both styles
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+# Partially useful in RoR apps
+Style/Documentation:
+  Include:
+    - lib/**/*
+
+# Do not require frozen string magic comment
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: never
+
+# Follow RubyGuides on this one
+Style/HashSyntax:
+  EnforcedStyle: ruby19_no_mixed_keys
+  Exclude:
+    - lib/tasks/**/* # better look for dependencies list
+
+# Prefer using Rubies methods
+Style/HashEachMethods:
+  Enabled: true
+Style/HashTransformKeys:
+  Enabled: true
+Style/HashTransformValues:
+  Enabled: true
+
+# Test cases can contain large numerical IDs which need no underscores.
+Style/NumericLiterals:
+  Exclude:
+    - test/**/*
+
