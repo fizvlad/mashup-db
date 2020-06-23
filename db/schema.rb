@@ -28,5 +28,5 @@ ActiveRecord::Schema.define(version: 2020_06_23_131105) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "audios", "artists"
+  add_foreign_key "audios", "artists", on_update: :cascade, on_delete: :cascade
 end
