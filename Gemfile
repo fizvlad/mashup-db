@@ -59,3 +59,6 @@ gem 'yaml', '~> 0.1.0'
 
 # Administrating
 gem 'rails_admin', '~> 2.0'
+
+# JSON parsing for interacting with VK API
+gem 'json', '~> 2.3'
