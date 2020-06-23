@@ -1,19 +1,15 @@
 buttercup:
-  id: 1
   title: ButterCup
-  artist_id: 1
-
+  artist: jack_stauber
 august:
-  id: 2
   title: Август
-  artist_id: 3
-
+  artist: intelligency
 hydrogen:
-  id: 3
   title: Hydrogen
-  artist_id: 2
-
+  artist: moon
 crystals:
-  id: 4
   title: Crystals
-  artist_id: 2
+  artist: moon
+nameless:
+  title: ''
+  artist: moon

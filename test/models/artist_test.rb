@@ -2,12 +2,10 @@ require 'test_helper'
 
 class ArtistTest < ActiveSupport::TestCase
   test 'correct name validation' do
-    artist = Artist.new(name: 'Ирина Аллегрова')
-    assert artist.valid?
+    assert artists(:jack_stauber).valid?
   end
 
   test 'empty name' do
-    artist = Artist.new(name: '')
-    assert_not artist.valid?
+    assert_not artists(:noname).valid?
   end
 end
