@@ -23,6 +23,28 @@ Things you may want to cover:
 
 * ...
 
+## Credetionals
+
+Setup credetionals for your environment (`development`, `test` or `production`) with:
+
+```
+$ rails credentials:edit --environment ENV
+```
+
+Sometime you would need to setup folowing variables:
+* `EDITOR=notepad`
+
+Credetionals example in YAML (production config should also contain `secret_key_base` string, which can be generated with `rake secret`):
+
+```
+db:
+  login: lgn
+  password: psswrd
+```
+
+Credetionals will be encoded and indexed by git. Decoding is performed during runtime using `config/master.key`.
+You will be able to access credetionals through `Rails.application.credentials` object.
+
 ## Running tests
 
 Change `RAILS_ENV` environment variable to `test`, then

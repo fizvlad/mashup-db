@@ -42,3 +42,7 @@ yarn-debug.log*
 
 # Do not track Gemfil.lock
 Gemfile.lock
+
+/config/credentials/development.key
+
+/config/credentials/test.key
