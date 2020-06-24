@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_23_131105) do
+ActiveRecord::Schema.define(version: 2020_06_24_101927) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,5 +28,12 @@ ActiveRecord::Schema.define(version: 2020_06_23_131105) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "mashups", force: :cascade do |t|
+    t.integer "audio_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   add_foreign_key "audios", "artists", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "mashups", "audios", on_update: :cascade, on_delete: :cascade
 end

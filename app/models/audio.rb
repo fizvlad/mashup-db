@@ -3,4 +3,9 @@ class Audio < ApplicationRecord
   validates :artist_id, presence: true
 
   belongs_to :artist
+
+  # @return [Mashup, nil] mashup if this audio is a mashup or nil.
+  def mashup
+    Mashup.find_by(audio_id: id)
+  end
 end

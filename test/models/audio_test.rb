@@ -8,4 +8,8 @@ class AudioTest < ActiveSupport::TestCase
   test 'empty name' do
     assert_not audios(:nameless).valid?
   end
+
+  test 'mashup' do
+    assert audios(:mystery_music).mashup
+  end
 end
