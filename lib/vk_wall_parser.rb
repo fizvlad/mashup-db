@@ -12,7 +12,6 @@ module VkWallParser
 
   def self.request(token, method_name, **opts)
     uri = self.method_uri(method_name, access_token: token, v: API_VERSION, **opts)
-    Rails.logger.debug "VK wall parser requesting #{uri}"
     response = Net::HTTP.get_response(uri)
     JSON.parse(response.body, symbolize_names: true)
   end
@@ -35,7 +34,6 @@ module VkWallParser
 
       raise data.inspect unless data[:error].nil?
 
-      Rails.logger.debug "VK wall parser received data #{data}"
       total_count = data[:count]
 
       break if data[:items].empty?
