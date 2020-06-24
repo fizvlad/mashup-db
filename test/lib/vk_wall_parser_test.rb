@@ -47,4 +47,11 @@ class VkWallParserTest < ActiveSupport::TestCase
     assert_instance_of Array, re
     assert_equal @recent_posts.size - offset, re.size
   end
+
+  test 'parsing to Post object' do
+    posts = VkWallParser.parse_posts(@recent_posts)
+    assert_instance_of Array, posts
+    assert_equal @recent_posts.size, posts.size
+    posts.each { |post| assert_instance_of Post, post }
+  end
 end

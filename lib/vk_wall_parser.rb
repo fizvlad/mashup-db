@@ -46,4 +46,60 @@ module VkWallParser
     end
     arr
   end
+
+  def self.parse_posts!(arr)
+    arr.map! do |post|
+      next nil if post[:marked_as_ads] != 0 # Not parsing adds
+
+      audios = self.get_audios_data(post)
+
+      # TODO: Handle audios data
+
+      from_club = self.get_source_club(post)
+      from_user = self.get_source_user(post)
+
+      Post.new(id: post[:id], from_club: from_club, from_user: from_user)
+    end
+    arr.compact!
+    arr
+  end
+
+  def self.parse_posts(arr)
+    dupped = arr.dup
+    self.parse_posts!(dupped)
+    dupped
+  end
+
+  private
+
+  def self.get_audios_data(post)
+    audios = []
+    if post[:copy_history]
+      # Recursively call for repost
+      audios.concat self.get_audios_data(post[:copy_history].first)
+    elsif post[:attachments]
+      post[:attachments].each { |a| audios << a[:audio] if a[:type] == 'audio' }
+    end
+    audios
+  end
+
+  def self.get_source_club(post)
+    if post[:copy_history]
+      # Recursively call for repost
+      self.get_source_club(post[:copy_history].first)
+    elsif post[:copyright] && post[:copyright][:id] < 0 # NOTE: Group ID must be less than zero
+      post[:copyright][:id]
+    end
+  end
+
+  def self.get_source_user(post)
+    if post[:copy_history]
+      # Recursively call for repost
+      self.get_source_user(post[:copy_history].first)
+    elsif post[:signer_id]
+      post[:signer_id]
+    elsif post[:copyright] && post[:copyright][:id] > 0 # NOTE: User ID must be greater than zero
+      post[:copyright][:id]
+    end
+  end
 end
