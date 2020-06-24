@@ -12,4 +12,10 @@ class AudioTest < ActiveSupport::TestCase
   test 'mashup' do
     assert audios(:mystery_music).mashup
   end
+
+  test 'checking where the audio is used' do
+    assert audios(:get_got).mashups
+    assert_not audios(:get_got).mashups.empty?
+    assert audios(:get_got).mashups.include? mashups(:new_year_miracle)
+  end
 end

@@ -8,4 +8,7 @@ class Mashup < ApplicationRecord
 
   belongs_to :audio
   alias_attribute :track, :audio
+
+  has_and_belongs_to_many :audios
+  alias_attribute :sources, :audios
 end

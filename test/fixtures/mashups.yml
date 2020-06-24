@@ -1,4 +1,10 @@
 new_year_miracle:
   audio: new_year_miracle
+  audios:
+    - get_got
+    - vs_new_year
 mystery_music:
   audio: mystery_music
+  audios:
+    - fc_why
+    - fool_village_ost

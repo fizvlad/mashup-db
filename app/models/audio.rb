@@ -8,4 +8,6 @@ class Audio < ApplicationRecord
   def mashup
     Mashup.find_by(audio_id: id)
   end
+
+  has_and_belongs_to_many :mashups
 end
