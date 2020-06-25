@@ -8,3 +8,13 @@ mystery_music:
   audios:
     - fc_why
     - fool_village_ost
+deodorant_son:
+  audio: deodorant_son
+  audios:
+    - fortunate_son
+    - sochniy_deodorant
+shrek_miami:
+  audio: shrek_miami
+  audios:
+    - hydrogen
+    - funky_town

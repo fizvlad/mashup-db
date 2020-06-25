@@ -2,8 +2,16 @@ require 'test_helper'
 
 class PostTest < ActiveSupport::TestCase
   test 'validation' do
-    assert posts(:one).valid?
-    assert posts(:two).valid?
-    assert posts(:three).valid?
+    assert posts(:sourceless).valid?
+    assert posts(:deodorant_son).valid?
+    assert posts(:shrek_miami).valid?
+  end
+
+  test 'posts-mashups association' do
+    assert_equal 1, posts(:deodorant_son).mashups.size
+    assert posts(:deodorant_son).mashups.include?(mashups(:deodorant_son))
+
+    assert_equal 1, posts(:shrek_miami).mashups.size
+    assert posts(:shrek_miami).mashups.include?(mashups(:shrek_miami))
   end
 end

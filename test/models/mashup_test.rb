@@ -12,4 +12,12 @@ class MashupTest < ActiveSupport::TestCase
     assert mashups(:mystery_music).sources.include? audios(:fc_why)
     assert mashups(:mystery_music).sources.include? audios(:fool_village_ost)
   end
+
+  test 'posts-mashups association' do
+    assert_equal 1, mashups(:deodorant_son).posts.size
+    assert mashups(:deodorant_son).posts.include?(posts(:deodorant_son))
+
+    assert_equal 1, mashups(:shrek_miami).posts.size
+    assert mashups(:shrek_miami).posts.include?(posts(:shrek_miami))
+  end
 end
