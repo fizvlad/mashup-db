@@ -9,6 +9,7 @@ require('@rails/activestorage').start()
 require('channels')
 
 import './bootstrap/index.js'
+import '@fortawesome/fontawesome-free/js/all'
 
 document.addEventListener('turbolinks:load', () => {
   $('[data-toggle="tooltip"]').tooltip()

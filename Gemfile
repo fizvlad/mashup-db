@@ -62,3 +62,5 @@ gem 'rails_admin', '>= 2.0.2'
 
 # JSON parsing for interacting with VK API
 gem 'json', '~> 2.3'
+
+gem 'font_awesome5_rails', '~> 1.1'
