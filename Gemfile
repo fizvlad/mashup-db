@@ -58,7 +58,7 @@ gem 'rubocop-rails', '~> 2.6'
 gem 'yaml', '~> 0.1.0'
 
 # Administrating
-gem 'rails_admin', '~> 2.0'
+gem 'rails_admin', '>= 2.0.2'
 
 # JSON parsing for interacting with VK API
 gem 'json', '~> 2.3'
