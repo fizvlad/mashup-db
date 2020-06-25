@@ -11,4 +11,6 @@ class Mashup < ApplicationRecord
 
   has_and_belongs_to_many :audios
   alias_attribute :sources, :audios
+
+  has_and_belongs_to_many :posts
 end
