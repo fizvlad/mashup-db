@@ -1,28 +1,35 @@
 require 'net/http'
 require 'json'
 
+# Module to parse posts into the models.
 module VkWallParser
-  API_VERSION = '5.110'
+  # Used version of VK API.
+  API_VERSION = '5.110'.freeze
 
-  OWNER_ID = -39786657
+  # ID of #mashup club.
+  OWNER_ID = -39_786_657
 
+  # @return [URI]
   def self.method_uri(method_name, **opts)
     URI("https://api.vk.com/method/#{method_name}?#{URI.encode_www_form(opts)}")
   end
 
+  # @return [Hash]
   def self.request(token, method_name, **opts)
-    uri = self.method_uri(method_name, access_token: token, v: API_VERSION, **opts)
+    uri = method_uri(method_name, access_token: token, v: API_VERSION, **opts)
     response = Net::HTTP.get_response(uri)
     JSON.parse(response.body, symbolize_names: true)
   end
 
+  # @return [Array<Hash>]
   def self.wall_get(token, **opts)
-    data = self.request(token, 'wall.get', owner_id: OWNER_ID, filter: 'owner', **opts)
+    data = request(token, 'wall.get', owner_id: OWNER_ID, filter: 'owner', **opts)
     raise data.inspect unless data[:error].nil?
 
     data[:response]
   end
 
+  # @return [Array<Hash>]
   def self.wall_get_until(token, until_id: 1, offset: 0, max_requests: 20, count: 100)
     total_count = count + 1
     arr = []
@@ -30,7 +37,7 @@ module VkWallParser
       current_offset = offset + i * count
       break if current_offset >= total_count
 
-      data = self.wall_get(token, offset: current_offset, count: count)
+      data = wall_get(token, offset: current_offset, count: count)
 
       raise data.inspect unless data[:error].nil?
 
@@ -47,16 +54,18 @@ module VkWallParser
     arr
   end
 
+  # @note modifies provided array.
+  # @return [Array<Post>]
   def self.parse_posts!(arr)
     arr.map! do |post|
       next nil if post[:marked_as_ads] != 0 # Not parsing adds
 
-      audios = self.get_audios_data(post)
+      audios = get_audios_data(post)
 
       # TODO: Handle audios data
 
-      from_club = self.get_source_club(post)
-      from_user = self.get_source_user(post)
+      from_club = get_source_club(post)
+      from_user = get_source_user(post)
 
       Post.new(id: post[:id], from_club: from_club, from_user: from_user)
     end
@@ -64,41 +73,43 @@ module VkWallParser
     arr
   end
 
+  # @return [Array<Post>]
   def self.parse_posts(arr)
     dupped = arr.dup
-    self.parse_posts!(dupped)
+    parse_posts!(dupped)
     dupped
   end
 
-  private
-
+  # @return [Array<Hash>]
   def self.get_audios_data(post)
     audios = []
     if post[:copy_history]
       # Recursively call for repost
-      audios.concat self.get_audios_data(post[:copy_history].first)
+      audios.concat get_audios_data(post[:copy_history].first)
     elsif post[:attachments]
       post[:attachments].each { |a| audios << a[:audio] if a[:type] == 'audio' }
     end
     audios
   end
 
+  # @return [Integer, nil]
   def self.get_source_club(post)
     if post[:copy_history]
       # Recursively call for repost
-      self.get_source_club(post[:copy_history].first)
-    elsif post[:copyright] && post[:copyright][:id] < 0 # NOTE: Group ID must be less than zero
+      get_source_club(post[:copy_history].first)
+    elsif post[:copyright] && post[:copyright][:id].negative? # NOTE: Group ID must be less than zero
       post[:copyright][:id]
     end
   end
 
+  # @return [Integer, nil]
   def self.get_source_user(post)
     if post[:copy_history]
       # Recursively call for repost
-      self.get_source_user(post[:copy_history].first)
+      get_source_user(post[:copy_history].first)
     elsif post[:signer_id]
       post[:signer_id]
-    elsif post[:copyright] && post[:copyright][:id] > 0 # NOTE: User ID must be greater than zero
+    elsif post[:copyright] && post[:copyright][:id].positive? # NOTE: User ID must be greater than zero
       post[:copyright][:id]
     end
   end
