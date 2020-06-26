@@ -10,4 +10,5 @@
   <%= @user.email %>
 </p>
 
-<%= link_to 'Edit', edit_user_path(@user) %>
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Delete profile', user_path(@user), method: :delete, confirm: 'This will delete profile. Are you sure?' %>
