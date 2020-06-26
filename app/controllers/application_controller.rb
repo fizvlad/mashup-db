@@ -15,6 +15,14 @@ class ApplicationController < ActionController::Base
     flash[:alerts] << { 'type' => type.to_s, 'text' => text.to_s }
   end
 
+  # before_action
+  def require_matching_user
+    return if current_user == @user
+
+    push_to_flash_alerts 'This action requires you to be logged in as another user.', type: 'danger'
+    redirect_to root_path
+  end
+
   # Used by Sorcery
   def not_authenticated
     redirect_to login_path, alert: 'Please login first'
