@@ -1,0 +1,30 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <%= link_to 'Mashup DB', root_path, class: 'navbar-brand' %>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbar">
+    <ul class="navbar-nav mr-auto">
+      <!--<li class="nav-item">
+        <%= link_to 'Home', root_path, class: 'nav-link' %>
+      </li>-->
+    </ul>
+    <ul class="navbar-nav my-2 my-lg-0">
+      <% if logged_in? %>
+        <span class="navbar-text">
+          Logged in as <%= link_to current_user.username, user_path(current_user) %>
+        </span>
+        <li cass="nav-item my-2">
+          <%= link_to 'Logout', logout_path, method: :post, class: 'nav-link' %>
+        </li>
+      <% else %>
+        <li cass="nav-item my-2">
+          <%= link_to 'Login', login_path, class: 'nav-link' %>
+        </li>
+        <li cass="nav-item my-2">
+          <%= link_to 'Signup', signup_path, class: 'nav-link' %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</nav>
