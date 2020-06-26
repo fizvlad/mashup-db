@@ -1,5 +1,5 @@
 <% flash[:alerts]&.each do |f| %>
-  <%= render partial: 'application/alerts/item', locals: { type: f['type'].to_s, text: f['text'].to_s } %>
+  <%= render partial: 'application/alerts/item', locals: f.symbolize_keys %>
 <% end %>
-<% render partial: 'application/alerts/item', locals: { type: 'danger', text: flash.alert } %>
-<% render partial: 'application/alerts/item', locals: { type: 'success', text: flash.notice } %>
+<%= render partial: 'application/alerts/item', locals: { type: 'danger', text: flash.alert } %>
+<%= render partial: 'application/alerts/item', locals: { type: 'success', text: flash.notice } %>
