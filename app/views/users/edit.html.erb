@@ -1,5 +1,5 @@
 <h1>Editing User</h1>
 
-<%= render 'form', user: @user %>
+<%= render partial: 'users/form', locals: { user: @user } %>
 
 <%= link_to 'Show', @user %>
