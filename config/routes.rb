@@ -8,5 +8,5 @@ Rails.application.routes.draw do
 
   resources :user_sessions, only: %i[create]
   get 'login', to: 'user_sessions#new', as: 'login'
-  post 'logout', to: 'user_sessions#destroy', as: 'logout'
+  delete 'logout', to: 'user_sessions#destroy', as: 'logout'
 end
