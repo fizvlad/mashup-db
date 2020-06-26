@@ -1,6 +1,15 @@
 RailsAdmin.config do |config|
-
   ### Popular gems integration
+
+  ## == Sorcery ==
+  # NOTE: Fix errors with RailsAdmin not being able to find paths when calling
+  #   sorcery methods.
+  config.parent_controller = 'ApplicationController'
+
+  config.authenticate_with do
+    require_login
+  end
+  config.current_user_method(&:current_user)
 
   ## == Devise ==
   # config.authenticate_with do

@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
 
   helper_method :push_to_flash_alerts
 
+  helper_method :not_authenticated
+
   before_action :require_login
 
   private
@@ -25,6 +27,6 @@ class ApplicationController < ActionController::Base
 
   # Used by Sorcery
   def not_authenticated
-    redirect_to login_path, alert: 'Please login first'
+    redirect_to main_app.login_path, alert: 'Please login first'
   end
 end
