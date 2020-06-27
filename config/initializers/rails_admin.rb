@@ -8,6 +8,7 @@ RailsAdmin.config do |config|
 
   config.authenticate_with do
     require_login
+    require_admin unless User.count == 1
   end
   config.current_user_method(&:current_user)
 
