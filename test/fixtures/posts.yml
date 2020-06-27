@@ -2,13 +2,25 @@ sourceless:
   id: 317406
   from_club: nil
   from_user: nil
+  likes: 100
+  reposts: 10
+  views: 500
+  comments: 15
 deodorant_son:
   id: 335545
   from_club: -195866048
   from_user: 159392957
   mashups: deodorant_son
+  likes: 100
+  reposts: 10
+  views: 500
+  comments: 15
 shrek_miami:
   id: 335588
   from_club: nil
   from_user: 140824793
   mashups: shrek_miami
+  likes: 100
+  reposts: 10
+  views: 500
+  comments: 15

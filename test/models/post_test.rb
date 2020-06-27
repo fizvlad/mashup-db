@@ -14,4 +14,11 @@ class PostTest < ActiveSupport::TestCase
     assert_equal 1, posts(:shrek_miami).mashups.size
     assert posts(:shrek_miami).mashups.include?(mashups(:shrek_miami))
   end
+
+  test 'statistics' do
+    assert posts(:shrek_miami).likes >= 0
+    assert posts(:shrek_miami).reposts >= 0
+    assert posts(:shrek_miami).views >= 0
+    assert posts(:shrek_miami).comments >= 0
+  end
 end
