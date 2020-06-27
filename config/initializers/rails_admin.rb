@@ -1,3 +1,5 @@
+require 'rails_admin/parse_posts'
+
 RailsAdmin.config do |config|
   ### Popular gems integration
 
@@ -47,5 +49,8 @@ RailsAdmin.config do |config|
     ## With an audit adapter, you can add:
     # history_index
     # history_show
+
+    ## Custom actions:
+    parse_posts
   end
 end

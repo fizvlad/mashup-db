@@ -30,4 +30,9 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  admin:
+    actions:
+      parse_posts:
+        menu: 'Parse'
+        title: 'Parse posts from VK'
+        breadcrumb: 'Parsing'
