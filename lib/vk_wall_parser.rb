@@ -57,17 +57,9 @@ module VkWallParser
   # @note modifies provided array.
   # @return [Array<Post>]
   def self.parse_posts!(arr)
-    arr.map! do |post|
-      next nil if post[:marked_as_ads] != 0 # Not parsing adds
-
-      audios = get_audios_data(post)
-
-      # TODO: Handle audios data
-
-      from_club = get_source_club(post)
-      from_user = get_source_user(post)
-
-      Post.new(id: post[:id], from_club: from_club, from_user: from_user)
+    arr.map! do |data|
+      next nil if data[:marked_as_ads] != 0 # Not parsing adds
+      get_post(data)
     end
     arr.compact!
     arr
@@ -80,6 +72,28 @@ module VkWallParser
     dupped
   end
 
+  # @param post [Hash]
+  # @return [Post]
+  def self.get_post(post)
+    audios = get_audios_data(post)
+
+    # TODO: Handle audios data
+
+    from_club = get_source_club(post)
+    from_user = get_source_user(post)
+
+    Post.new(
+      id: post[:id],
+      from_club: from_club,
+      from_user: from_user,
+      likes: post[:likes][:count],
+      reposts: post[:reposts][:count],
+      views: post[:views][:count],
+      comments: post[:comments][:count]
+    )
+  end
+
+  # @param post [Hash]
   # @return [Array<Hash>]
   def self.get_audios_data(post)
     audios = []
