@@ -54,22 +54,14 @@ module VkWallParser
     arr
   end
 
-  # @note modifies provided array.
-  # @return [Array<Post>]
-  def self.parse_posts!(arr)
-    arr.map! do |data|
-      next nil if data[:marked_as_ads] != 0 # Not parsing adds
-      get_post(data)
-    end
-    arr.compact!
-    arr
-  end
-
   # @return [Array<Post>]
   def self.parse_posts(arr)
-    dupped = arr.dup
-    parse_posts!(dupped)
-    dupped
+    re = arr.map do |data|
+      next nil if data[:marked_as_ads] != 0 # Not parsing ads
+      get_post(data)
+    end
+    re.compact!
+    re
   end
 
   # @param post [Hash]
