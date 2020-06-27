@@ -92,16 +92,18 @@ module VkWallParser
     audios
   end
 
+  # @param post [Hash]
   # @return [Integer, nil]
   def self.get_source_club(post)
     if post[:copy_history]
       # Recursively call for repost
       get_source_club(post[:copy_history].first)
-    elsif post[:copyright] && post[:copyright][:id].negative? # NOTE: Group ID must be less than zero
+    elsif post[:copyright] && post[:copyright][:id] && post[:copyright][:id].negative? # NOTE: Group ID must be less than zero
       post[:copyright][:id]
     end
   end
 
+  # @param post [Hash]
   # @return [Integer, nil]
   def self.get_source_user(post)
     if post[:copy_history]
@@ -109,7 +111,7 @@ module VkWallParser
       get_source_user(post[:copy_history].first)
     elsif post[:signer_id]
       post[:signer_id]
-    elsif post[:copyright] && post[:copyright][:id].positive? # NOTE: User ID must be greater than zero
+    elsif post[:copyright] && post[:copyright][:id] && post[:copyright][:id].positive? # NOTE: User ID must be greater than zero
       post[:copyright][:id]
     end
   end
