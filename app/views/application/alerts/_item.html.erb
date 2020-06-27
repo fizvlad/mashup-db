@@ -1,4 +1,4 @@
-<% if text.present? %>
+<% if type.present? && text.present? %>
   <div class="alert alert-<%= type %> alert-dismissible fade show m-1" role="alert">
     <%=h text %>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">

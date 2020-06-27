@@ -64,3 +64,5 @@ gem 'rails_admin', '>= 2.0.2'
 gem 'json', '~> 2.3'
 
 gem 'font_awesome5_rails', '~> 1.1'
+
+gem 'sorcery', '~> 0.15.0'
