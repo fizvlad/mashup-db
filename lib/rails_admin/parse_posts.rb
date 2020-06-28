@@ -1,3 +1,5 @@
+require 'vk_wall_parser'
+
 module RailsAdmin
   module Config
     module Actions
@@ -26,15 +28,19 @@ module RailsAdmin
 
         register_instance_option :controller do
           proc do
-            if request.get?
-              flash.notice = 'Not yet'
-              # TODO: Render form
-              redirect_to back_or_index
-            elsif request.post?
-              # TODO: Run action and redirect
-              flash.notice = 'Parsed posts'
-              redirect_to back_or_index
+            if request.post?
+              parameters = params.require('parse_posts')
+                                 .permit(%w[offset until_id max_requests count])
+              parameters = parameters.to_hash
+              parameters.symbolize_keys!
+              parameters.transform_values!(&:to_i)
+
+              data = VkWallParser.wall_get_until(Rails.application.credentials[:vk][:api_key],
+                                                 **parameters)
+              @posts = VkWallParser.parse_posts(data)
             end
+
+            render @action.template_name
           end
         end
       end
