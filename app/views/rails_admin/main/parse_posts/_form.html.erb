@@ -5,7 +5,7 @@
   </div>
   <div class="form-group">
     <%= f.label :until_id, 'Until post with ID:' %>
-    <%= f.number_field :until_id, value: 1, class: 'form-control' %>
+    <%= f.number_field :until_id, value: @maximum_post_id || 1, class: 'form-control' %>
   </div>
   <div class="form-group">
     <%= f.label :max_requests, 'Maximum amount of requests:' %>
