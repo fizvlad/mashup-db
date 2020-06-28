@@ -55,34 +55,47 @@ module VkWallParser
   end
 
   # @return [Array<Post>]
-  def self.parse_posts(arr)
+  def self.parse_posts(arr, timeout: 0)
     re = arr.map do |data|
       next nil if data[:marked_as_ads] != 0 # Not parsing ads
-      get_post(data)
+      parse_post(data)
+      sleep timeout
+    rescue StandardError => e
+      Rails.logger.warn "Unable to parse post #{a}: \n#{e.full_message}"
     end
     re.compact!
     re
   end
 
-  # @param post [Hash]
+  # @param data [Hash]
   # @return [Post]
-  def self.get_post(post)
-    audios = get_audios_data(post)
+  def self.parse_post(data)
+    audios = get_audios_data(data)
 
-    # TODO: Handle audios data
+    from_club = get_source_club(data)
+    from_user = get_source_user(data)
 
-    from_club = get_source_club(post)
-    from_user = get_source_user(post)
-
-    Post.new(
-      id: post[:id],
+    post = Post.find_or_create_by!(id: data[:id])
+    post.update(
       from_club: from_club,
       from_user: from_user,
-      likes: post[:likes][:count],
-      reposts: post[:reposts][:count],
-      views: post[:views][:count],
-      comments: post[:comments][:count]
+      likes: data[:likes][:count],
+      reposts: data[:reposts][:count],
+      views: data[:views][:count],
+      comments: data[:comments][:count]
     )
+
+    audios.each do |a|
+      artist = Artist.find_or_create_by!(name: a[:artist])
+      audio = Audio.find_or_create_by!(artist_id: artist.id, title: a[:title])
+      mashup = Mashup.find_or_create_by!(audio_id: audio.id)
+
+      post.mashups << mashup unless post.mashup_ids.include?(mashup.id)
+    rescue StandardError => e
+      Rails.logger.warn "Unable to save audio #{a}: \n#{e.full_message}"
+    end
+
+    post
   end
 
   # @param post [Hash]
