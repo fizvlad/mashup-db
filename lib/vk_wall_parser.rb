@@ -31,7 +31,7 @@ module VkWallParser
 
   # @return [Array<Hash>]
   def self.wall_get_until(token, until_id: 1, offset: 0, max_requests: 20, count: 100)
-    total_count = count + 1
+    total_count = offset + count + 1
     arr = []
     max_requests.times do |i|
       current_offset = offset + i * count
