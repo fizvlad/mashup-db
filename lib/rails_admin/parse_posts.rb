@@ -37,9 +37,16 @@ module RailsAdmin
 
               data = VkWallParser.wall_get_until(Rails.application.credentials[:vk][:api_key],
                                                  **parameters)
-              @posts = VkWallParser.parse_posts(data)
+              thr = Thread.new do
+                Rails.logger.info "Parsing #{data.size} posts"
+                posts = VkWallParser.parse_posts(data)
+                Rails.logger.info "Parsed #{data.size} posts"
+              end
+              thr.name = 'wall_parsing'
+              flash.notice = "Started parsing #{data.size} posts in separate thread"
+            elsif request.get?
+              @maximum_post_id = Post.maximum('id')
             end
-
             render @action.template_name
           end
         end
