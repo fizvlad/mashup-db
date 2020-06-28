@@ -31,7 +31,7 @@ module VkWallParser
 
   # @return [Array<Hash>]
   def self.wall_get_until(token, until_id: 1, offset: 0, max_requests: 20, count: 100)
-    total_count = count + 1
+    total_count = offset + count + 1
     arr = []
     max_requests.times do |i|
       current_offset = offset + i * count
@@ -54,43 +54,48 @@ module VkWallParser
     arr
   end
 
-  # @note modifies provided array.
   # @return [Array<Post>]
-  def self.parse_posts!(arr)
-    arr.map! do |data|
-      next nil if data[:marked_as_ads] != 0 # Not parsing adds
-      get_post(data)
+  def self.parse_posts(arr, timeout: 0)
+    re = arr.map do |data|
+      next nil if data[:marked_as_ads] != 0 # Not parsing ads
+      parse_post(data)
+      sleep timeout
+    rescue StandardError => e
+      Rails.logger.warn "Unable to parse post #{a}: \n#{e.full_message}"
     end
-    arr.compact!
-    arr
+    re.compact!
+    re
   end
 
-  # @return [Array<Post>]
-  def self.parse_posts(arr)
-    dupped = arr.dup
-    parse_posts!(dupped)
-    dupped
-  end
-
-  # @param post [Hash]
+  # @param data [Hash]
   # @return [Post]
-  def self.get_post(post)
-    audios = get_audios_data(post)
+  def self.parse_post(data)
+    audios = get_audios_data(data)
 
-    # TODO: Handle audios data
+    from_club = get_source_club(data)
+    from_user = get_source_user(data)
 
-    from_club = get_source_club(post)
-    from_user = get_source_user(post)
-
-    Post.new(
-      id: post[:id],
+    post = Post.find_or_create_by!(id: data[:id])
+    post.update(
       from_club: from_club,
       from_user: from_user,
-      likes: post[:likes][:count],
-      reposts: post[:reposts][:count],
-      views: post[:views][:count],
-      comments: post[:comments][:count]
+      likes: data[:likes][:count],
+      reposts: data[:reposts][:count],
+      views: data[:views][:count],
+      comments: data[:comments][:count]
     )
+
+    audios.each do |a|
+      artist = Artist.find_or_create_by!(name: a[:artist])
+      audio = Audio.find_or_create_by!(artist_id: artist.id, title: a[:title])
+      mashup = Mashup.find_or_create_by!(audio_id: audio.id)
+
+      post.mashups << mashup unless post.mashup_ids.include?(mashup.id)
+    rescue StandardError => e
+      Rails.logger.warn "Unable to save audio #{a}: \n#{e.full_message}"
+    end
+
+    post
   end
 
   # @param post [Hash]
@@ -110,10 +115,14 @@ module VkWallParser
   # @return [Integer, nil]
   def self.get_source_club(post)
     if post[:copy_history]
-      # Recursively call for repost
+      # If repost, handle original
       get_source_club(post[:copy_history].first)
-    elsif post[:copyright] && post[:copyright][:id] && post[:copyright][:id].negative? # NOTE: Group ID must be less than zero
+    elsif post[:copyright] && post[:copyright][:id] && post[:copyright][:id].negative?
+      # If with source field AND source is a group - ID of the group
       post[:copyright][:id]
+    elsif post[:from_id] != OWNER_ID && post[:from_id].negative?
+      # If posted by some group (not #mashup) - ID of the group
+      post[:from_id]
     end
   end
 
@@ -121,12 +130,17 @@ module VkWallParser
   # @return [Integer, nil]
   def self.get_source_user(post)
     if post[:copy_history]
-      # Recursively call for repost
+      # If repost, handle original
       get_source_user(post[:copy_history].first)
-    elsif post[:signer_id]
-      post[:signer_id]
-    elsif post[:copyright] && post[:copyright][:id] && post[:copyright][:id].positive? # NOTE: User ID must be greater than zero
+    elsif post[:copyright] && post[:copyright][:id] && post[:copyright][:id].positive?
+      # If with source field AND source is a user - ID of the group
       post[:copyright][:id]
+    elsif post[:signer_id]
+      # If post got a signer - use their ID
+      post[:signer_id]
+    elsif post[:from_id].positive?
+      # If posted by user on wall - use their ID
+      post[:from_id]
     end
   end
 end
