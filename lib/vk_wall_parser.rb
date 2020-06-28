@@ -102,10 +102,14 @@ module VkWallParser
   # @return [Integer, nil]
   def self.get_source_club(post)
     if post[:copy_history]
-      # Recursively call for repost
+      # If repost, handle original
       get_source_club(post[:copy_history].first)
-    elsif post[:copyright] && post[:copyright][:id] && post[:copyright][:id].negative? # NOTE: Group ID must be less than zero
+    elsif post[:copyright] && post[:copyright][:id] && post[:copyright][:id].negative?
+      # If with source field AND source is a group - ID of the group
       post[:copyright][:id]
+    elsif post[:from_id] != OWNER_ID && post[:from_id].negative?
+      # If posted by some group (not #mashup) - ID of the group
+      post[:from_id]
     end
   end
 
@@ -113,12 +117,17 @@ module VkWallParser
   # @return [Integer, nil]
   def self.get_source_user(post)
     if post[:copy_history]
-      # Recursively call for repost
+      # If repost, handle original
       get_source_user(post[:copy_history].first)
-    elsif post[:signer_id]
-      post[:signer_id]
-    elsif post[:copyright] && post[:copyright][:id] && post[:copyright][:id].positive? # NOTE: User ID must be greater than zero
+    elsif post[:copyright] && post[:copyright][:id] && post[:copyright][:id].positive?
+      # If with source field AND source is a user - ID of the group
       post[:copyright][:id]
+    elsif post[:signer_id]
+      # If post got a signer - use their ID
+      post[:signer_id]
+    elsif post[:from_id].positive?
+      # If posted by user on wall - use their ID
+      post[:from_id]
     end
   end
 end
