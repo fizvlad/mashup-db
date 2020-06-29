@@ -1,13 +1,14 @@
 sourceless:
-  id: 317406
+  id: 1
   from_club: nil
   from_user: nil
   likes: 100
   reposts: 10
   views: 500
   comments: 15
+  date: <%= Time.at(1592611200).to_s :db %>
 deodorant_son:
-  id: 335545
+  id: 2
   from_club: -195866048
   from_user: 159392957
   mashups: deodorant_son
@@ -15,8 +16,9 @@ deodorant_son:
   reposts: 10
   views: 500
   comments: 15
+  date: <%= Time.at(1592611200).utc.to_s :db %>
 shrek_miami:
-  id: 335588
+  id: 3
   from_club: nil
   from_user: 140824793
   mashups: shrek_miami
@@ -24,3 +26,4 @@ shrek_miami:
   reposts: 10
   views: 500
   comments: 15
+  date: <%= Time.at(1592611200).utc.to_s :db %>
