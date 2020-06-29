@@ -21,4 +21,8 @@ class PostTest < ActiveSupport::TestCase
     assert posts(:shrek_miami).views >= 0
     assert posts(:shrek_miami).comments >= 0
   end
+
+  test 'date' do
+    assert_instance_of ActiveSupport::TimeWithZone, posts(:deodorant_son).date
+  end
 end

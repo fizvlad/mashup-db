@@ -58,10 +58,11 @@ module VkWallParser
   def self.parse_posts(arr, timeout: 0)
     re = arr.map do |data|
       next nil if data[:marked_as_ads] != 0 # Not parsing ads
-      parse_post(data)
       sleep timeout
+      parse_post(data)
     rescue StandardError => e
       Rails.logger.warn "Unable to parse post #{a}: \n#{e.full_message}"
+      nil
     end
     re.compact!
     re
@@ -82,7 +83,8 @@ module VkWallParser
       likes: data[:likes][:count],
       reposts: data[:reposts][:count],
       views: data[:views][:count],
-      comments: data[:comments][:count]
+      comments: data[:comments][:count],
+      date: Time.at(data[:date].to_i).utc
     )
 
     audios.each do |a|
