@@ -145,4 +145,75 @@ module VkWallParser
       post[:from_id]
     end
   end
+
+  # Parsing process repeater.
+  class Repeater
+    def initialize(api_key, interval: 15.minutes, extended_parsing_once_in: 4)
+      @api_key = api_key
+      @interval = interval
+      @extended_parsing_once_in = extended_parsing_once_in
+
+      @running = false
+      @thread = nil
+    end
+
+    def running?
+      @running
+    end
+
+    def run
+      return if @running
+
+      @running = true
+      @thread = Thread.new { parse_loop }
+      @thread.name = 'vkwp_repeater'
+    end
+
+    def stop
+      @running = false
+      @thread.wakeup
+      @thread.join
+
+      @thread = nil
+    end
+
+    private
+
+    def parse_loop(start_with_extended: true)
+      i = start_with_extended ? 0 : 1
+      while @running
+        if i.zero?
+          parse_iteration_extended
+        else
+          parse_iteration
+        end
+        i = (i + 1) % @extended_parsing_once_in
+        sleep @interval
+      end
+    end
+
+    def parse_iteration_extended
+      data = VkWallParser.wall_get_until(
+        Rails.application.credentials[:vk][:api_key],
+        until_id: 1,
+        offset: 0,
+        max_requests: 10,
+        count: 100
+      )
+      Rails.logger.info "Running extended parsing (#{data.size} posts)"
+      VkWallParser.parse_posts(data)
+    end
+
+    def parse_iteration
+      data = VkWallParser.wall_get_until(
+        Rails.application.credentials[:vk][:api_key],
+        until_id: Post.maximum('id'),
+        offset: 0,
+        max_requests: 3,
+        count: 100
+      )
+      Rails.logger.info "Running regular parsing (#{data.size} posts)"
+      VkWallParser.parse_posts(data)
+    end
+  end
 end
