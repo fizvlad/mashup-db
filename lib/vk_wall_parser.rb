@@ -83,7 +83,8 @@ module VkWallParser
       likes: data[:likes][:count],
       reposts: data[:reposts][:count],
       views: data[:views][:count],
-      comments: data[:comments][:count]
+      comments: data[:comments][:count],
+      date: Time.at(data[:date].to_i).utc
     )
 
     audios.each do |a|
