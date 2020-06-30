@@ -40,8 +40,8 @@
 yarn-debug.log*
 .yarn-integrity
 
-# Do not track Gemfil.lock
-Gemfile.lock
+# Lock file is required by Heroku ~~Do not track Gemfil.lock~~
+#Gemfile.lock
 
 /config/credentials/development.key
 
