@@ -18,6 +18,7 @@ test:
   password: <%= Rails.application.credentials.dig(:db, :password) %>
 
 production:
+  <<: *default
   url: <%= ENV['DATABASE_URL'] %>
   database: mashup_db_production
   username: mashup_db
