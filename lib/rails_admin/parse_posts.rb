@@ -35,15 +35,19 @@ module RailsAdmin
               parameters.symbolize_keys!
               parameters.transform_values!(&:to_i)
 
-              data = VkWallParser.wall_get_until(Rails.application.credentials[:vk][:api_key],
-                                                 **parameters)
-              thr = Thread.new do
-                Rails.logger.info "Parsing #{data.size} posts"
-                posts = VkWallParser.parse_posts(data)
-                Rails.logger.info "Parsed #{data.size} posts"
+              api_key = Rails.application.credentials.dig(:vk, :api_key)
+              if api_key
+                data = VkWallParser.wall_get_until(api_key, **parameters)
+                thr = Thread.new do
+                  Rails.logger.info "Parsing #{data.size} posts"
+                  posts = VkWallParser.parse_posts(data)
+                  Rails.logger.info "Parsed #{data.size} posts"
+                end
+                thr.name = 'wall_parsing'
+                flash.notice = "Started parsing #{data.size} posts in separate thread"
+              else
+                flash.alert = "Can not retrieve VK credentials!"
               end
-              thr.name = 'wall_parsing'
-              flash.notice = "Started parsing #{data.size} posts in separate thread"
             elsif request.get?
               @maximum_post_id = Post.maximum('id')
             end
