@@ -104,3 +104,15 @@ Make sure to login into CLI:
 ```
 $ heroku login
 ```
+
+Migrate database:
+
+```
+$ heroku run rake db:migrate
+```
+
+Check state:
+
+```
+$ heroku ps
+```
