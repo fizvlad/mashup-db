@@ -19,7 +19,14 @@ test:
 
 production:
   <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
   database: mashup_db_production
+<% if Rails.application.credentials.dig(:db) %>
+  # Machine with local DB
+  username: <%= Rails.application.credentials.dig(:db, :login) %>
+  password: <%= Rails.application.credentials.dig(:db, :password) %>
+<% else %>
+  # Heroku
+  url: <%= ENV['DATABASE_URL'] %>
   username: mashup_db
   password: <%= ENV['MYAPP_DATABASE_PASSWORD'] %>
+<% end %>
