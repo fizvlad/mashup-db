@@ -2,20 +2,23 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: 5
-  username: <%= Rails.application.credentials[:db][:login] %>
-  password: <%= Rails.application.credentials[:db][:password] %>
-  host: localhost
 
 development:
   <<: *default
   database: mashup_db_dev
+  host: localhost
+  username: <%= Rails.application.credentials[:db][:login] %>
+  password: <%= Rails.application.credentials[:db][:password] %>
 
 test:
   <<: *default
   database: mashup_db_test
+  host: localhost
+  username: <%= Rails.application.credentials[:db][:login] %>
+  password: <%= Rails.application.credentials[:db][:password] %>
 
 production:
-  adapter: postgresql
-  encoding: unicode
-  pool: 5
   url: <%= ENV['DATABASE_URL'] %>
+  database: mashup_db_production
+  username: mashup_db
+  password: <%= ENV['MYAPP_DATABASE_PASSWORD'] %>
