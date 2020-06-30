@@ -83,6 +83,7 @@ Precompile assets:
 
 ```
 $ rake assets:precompile
+$ ruby bin\webpack
 ```
 
 Optionally, you should migrate:
@@ -109,6 +110,12 @@ Migrate database:
 
 ```
 $ heroku run rake db:migrate
+```
+
+Build assets with webpack:
+
+```
+$ heroku run ./bin/webpack
 ```
 
 Check state:
