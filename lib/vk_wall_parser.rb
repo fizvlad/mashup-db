@@ -148,8 +148,8 @@ module VkWallParser
 
   # Parsing process repeater.
   class Repeater
-    def initialize(api_key, interval: 15.minutes, extended_parsing_once_in: 4)
-      @api_key = api_key
+    def initialize(api_key_getter, interval: 15.minutes, extended_parsing_once_in: 4)
+      @api_key_getter = api_key_getter
       @interval = interval
       @extended_parsing_once_in = extended_parsing_once_in
 
@@ -179,6 +179,12 @@ module VkWallParser
 
     private
 
+    def api_key
+      @api_key_getter.call
+    rescue
+      nil
+    end
+
     def parse_loop(start_with_extended: true)
       i = start_with_extended ? 0 : 1
       while @running
@@ -193,8 +199,13 @@ module VkWallParser
     end
 
     def parse_iteration_extended
+      unless api_key
+        Rails.logger.warn 'Skipping extended parsing since vk credentials are not specified'
+        return
+      end
+
       data = VkWallParser.wall_get_until(
-        Rails.application.credentials[:vk][:api_key],
+        api_key,
         until_id: 1,
         offset: 0,
         max_requests: 10,
@@ -205,8 +216,13 @@ module VkWallParser
     end
 
     def parse_iteration
+      unless api_key
+        Rails.logger.warn 'Skipping regular parsing since vk credentials are not specified'
+        return
+      end
+
       data = VkWallParser.wall_get_until(
-        Rails.application.credentials[:vk][:api_key],
+        api_key,
         until_id: Post.maximum('id'),
         offset: 0,
         max_requests: 3,
