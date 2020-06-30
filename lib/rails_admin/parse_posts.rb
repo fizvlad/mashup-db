@@ -35,7 +35,7 @@ module RailsAdmin
               parameters.symbolize_keys!
               parameters.transform_values!(&:to_i)
 
-              api_key = Rails.application.credentials.dig(:vk, :api_key)
+              api_key = Rails.application.credentials.dig(:vk, :api_key) || ENV['VK_API_KEY']
               if api_key
                 data = VkWallParser.wall_get_until(api_key, **parameters)
                 thr = Thread.new do
