@@ -6,4 +6,6 @@ require 'vk_wall_parser'
   extended_parsing_once_in: 4
 )
 
-VkWallParserRepeater.run
+Rails.configuration.after_initialize do
+  VkWallParserRepeater.run
+end
