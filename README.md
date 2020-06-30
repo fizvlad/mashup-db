@@ -73,6 +73,8 @@ $ rails s -e development -b 0.0.0.0 -p 3000
 
 ### Production
 
+#### On dedicated machine
+
 Setup environment variables:
 * `RAILS_ENV=production`
 * `RAILS_SERVE_STATIC_FILES=true` unless NGINX or apache is used (see https://github.com/rails/webpacker/issues/1249)
@@ -95,3 +97,10 @@ Run in production:
 $ rails s -e production -b 0.0.0.0 -p 3000
 ```
 
+#### Via Heroku
+
+Make sure to login into CLI:
+
+```
+$ heroku login
+```
