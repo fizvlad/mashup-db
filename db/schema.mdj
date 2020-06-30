@@ -137,7 +137,7 @@
 									"font": "Arial;13;1",
 									"left": 720,
 									"top": 141,
-									"width": 159.2890625,
+									"width": 171.55908203125,
 									"height": 13,
 									"text": "mashups"
 								},
@@ -163,7 +163,7 @@
 											"font": "Arial;13;0",
 											"left": 725,
 											"top": 164,
-											"width": 149.2890625,
+											"width": 161.55908203125,
 											"height": 13
 										},
 										{
@@ -178,21 +178,21 @@
 											"font": "Arial;13;0",
 											"left": 725,
 											"top": 179,
-											"width": 149.2890625,
+											"width": 161.55908203125,
 											"height": 13
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 720,
 									"top": 159,
-									"width": 159.2890625,
+									"width": 171.55908203125,
 									"height": 38
 								}
 							],
 							"font": "Arial;13;0",
 							"left": 720,
 							"top": 136,
-							"width": 159.2890625,
+							"width": 171.55908203125,
 							"height": 61,
 							"nameLabel": {
 								"$ref": "AAAAAAFy4TGgjBUfUdY="
@@ -1296,7 +1296,8 @@
 							"name": "audio_id",
 							"type": "INTEGER",
 							"length": 0,
-							"foreignKey": true
+							"foreignKey": true,
+							"unique": true
 						}
 					]
 				},

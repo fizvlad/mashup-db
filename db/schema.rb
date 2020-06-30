@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_29_061708) do
+ActiveRecord::Schema.define(version: 2020_06_30_202848) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 2020_06_29_061708) do
     t.integer "audio_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["audio_id"], name: "index_mashups_on_audio_id", unique: true
   end
 
   create_table "mashups_posts", id: false, force: :cascade do |t|
