@@ -7,15 +7,15 @@ development:
   <<: *default
   database: mashup_db_dev
   host: localhost
-  username: <%= Rails.application.credentials[:db][:login] %>
-  password: <%= Rails.application.credentials[:db][:password] %>
+  username: <%= Rails.application.credentials.dig(:db, :login) %>
+  password: <%= Rails.application.credentials.dig(:db, :password) %>
 
 test:
   <<: *default
   database: mashup_db_test
   host: localhost
-  username: <%= Rails.application.credentials[:db][:login] %>
-  password: <%= Rails.application.credentials[:db][:password] %>
+  username: <%= Rails.application.credentials.dig(:db, :login) %>
+  password: <%= Rails.application.credentials.dig(:db, :password) %>
 
 production:
   url: <%= ENV['DATABASE_URL'] %>
