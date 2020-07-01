@@ -4,7 +4,9 @@ class ArtistsController < ApplicationController
   skip_before_action :require_login, only: %i[index show]
 
   def index
-    @artists = Artist.paginate(page: params[:page], per_page: 30)
+    query = params[:search].to_s
+    acl = query.present? ? Artist.search(query) : Artist
+    @artists = acl.paginate(page: params[:page], per_page: 30)
   end
 
   def show; end
