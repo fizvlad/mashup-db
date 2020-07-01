@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   root to: 'pages#index'
 
+  resources :artists, only: %i[show index]
+
   resources :users, except: %i[new index]
   get 'signup', to: 'users#new', as: 'signup'
 
