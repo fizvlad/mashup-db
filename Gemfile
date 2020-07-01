@@ -63,6 +63,12 @@ gem 'rails_admin', '>= 2.0.2'
 # JSON parsing for interacting with VK API
 gem 'json', '~> 2.3'
 
+# Cool icons
 gem 'font_awesome5_rails', '~> 1.1'
 
+# Authentication
 gem 'sorcery', '~> 0.15.0'
+
+# Pagination
+gem 'will_paginate', '~> 3.3'
+gem 'will_paginate-bootstrap4', '~> 0.2.2'
