@@ -161,11 +161,11 @@ module VkWallParser
       @running
     end
 
-    def run
+    def run(start_with_extended: false)
       return if @running
 
       @running = true
-      @thread = Thread.new { parse_loop }
+      @thread = Thread.new { parse_loop(start_with_extended) }
       @thread.name = 'vkwp_repeater'
     end
 
