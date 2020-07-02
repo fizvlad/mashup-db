@@ -17,6 +17,6 @@
     </div>
   </div>
   <div class="card-footer">
-    <small class="text-muted"><%= mashup.date.to_s(:custom) %></small>
+    <small class="text-muted"><%= link_to mashup.date.to_s(:custom), vk_posts_url(mashup.first_post.id) %></small>
   </div>
 </div>
