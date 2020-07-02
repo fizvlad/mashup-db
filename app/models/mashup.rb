@@ -13,4 +13,17 @@ class Mashup < ApplicationRecord
   alias_attribute :sources, :audios
 
   has_and_belongs_to_many :posts
+
+  def name
+    "#{artist.name} - #{audio.title}"
+  end
+
+  def artist
+    audio.artist
+  end
+
+  def self.search(query)
+    self.joins(audio: :artist)
+        .where('audios.title LIKE :q OR artists.name LIKE :q', { q: "%#{sanitize_sql_like(query)}%" })
+  end
 end
