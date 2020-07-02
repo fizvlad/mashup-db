@@ -16,9 +16,7 @@
 
 <div class="card-columns my-2">
   <% @mashups.each do |mashup| %>
-    <div class="card p-3">
-      <%= link_to mashup.name, mashup %>
-    </div>
+    <%= render partial: 'mashups/mashup_card', locals: { mashup: mashup } %>
   <% end %>
 </div>
 <div class="d-flex justify-content-center">

@@ -4,8 +4,6 @@
 
 <div class="card-columns my-2">
   <% @artist.mashups.each do |mashup| %>
-    <div class="card p-3">
-      <%= link_to mashup.audio.title, mashup %>
-    </div>
+    <%= render partial: 'mashups/mashup_card', locals: { mashup: mashup } %>
   <% end %>
 </div>
