@@ -1,9 +1,18 @@
 <h1><%= @artist.name %></h1>
 
-<h2>Mashups</h2>
-
+<h4 class="my-2">Mashups by <%= @artist.name %></h4>
 <div class="card-columns my-2">
   <% @artist.mashups.each do |mashup| %>
     <%= render partial: 'mashups/mashup_card', locals: { mashup: mashup } %>
   <% end %>
 </div>
+
+<h4 class="my-2">Related user IDs</h4>
+<% @artist.related_user_ids.each do |id| %>
+  <%= link_to id, vk_profile_url(id) %>
+<% end %>
+
+<h4 class="my-2">Related club IDs</h4>
+<% @artist.related_club_ids.each do |id| %>
+  <%= link_to id, vk_profile_url(id) %>
+<% end %>
