@@ -165,7 +165,7 @@ module VkWallParser
       return if @running
 
       @running = true
-      @thread = Thread.new { parse_loop(start_with_extended) }
+      @thread = Thread.new { parse_loop(start_with_extended: start_with_extended) }
       @thread.name = 'vkwp_repeater'
     end
 

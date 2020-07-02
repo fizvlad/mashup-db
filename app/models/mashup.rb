@@ -22,6 +22,14 @@ class Mashup < ApplicationRecord
     audio.artist
   end
 
+  def first_post
+    posts.order(date: :asc).first
+  end
+
+  def date
+    first_post.date
+  end
+
   def self.search(query)
     self.joins(audio: :artist)
         .where('audios.title LIKE :q OR artists.name LIKE :q', { q: "%#{sanitize_sql_like(query)}%" })
