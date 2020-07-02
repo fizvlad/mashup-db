@@ -5,7 +5,7 @@ class ArtistsController < ApplicationController
 
   def index
     query = params[:search].to_s
-    acl = query.present? ? Artist.search(query) : Artist
+    acl = query.present? ? Artist.search(query) : Artist.order_by_audios_count
     @artists = acl.paginate(page: params[:page], per_page: 30)
   end
 
