@@ -1,5 +1,22 @@
-<div class="card p-3">
+<div class="card">
+  <div class="card-header">
+    <p class="card-title">
+      <%= link_to mashup.artist.name, mashup.artist %> - <%= link_to mashup.audio.title, mashup %>
+    </p>
+  </div>
   <div class="card-body">
-    <%= link_to mashup.name, mashup, class: 'card-title' %>
+    <div class="card-text">
+      <% if mashup.posts.count > 1 %>
+        <p>Mentioned in <%= pluralize(mashup.posts.count, 'post') %></p>
+      <% end %>
+      <% if mashup.sources.any? %>
+        <p><%= pluralize(mashup.sources.count, 'source') %></p>
+      <% else %>
+        <p>Sources not specified</p>
+      <% end %>
+    </div>
+  </div>
+  <div class="card-footer">
+    <small class="text-muted"><%= mashup.date.to_s(:custom) %></small>
   </div>
 </div>
