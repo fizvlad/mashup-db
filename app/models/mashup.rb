@@ -34,4 +34,8 @@ class Mashup < ApplicationRecord
     self.joins(audio: :artist)
         .where('audios.title LIKE :q OR artists.name LIKE :q', { q: "%#{sanitize_sql_like(query)}%" })
   end
+
+  def self.order_by_first_post_date
+    self.joins(:posts).select('mashups.*, MIN(posts.date) AS first_post_date').group('mashups.id').order('first_post_date DESC')
+  end
 end

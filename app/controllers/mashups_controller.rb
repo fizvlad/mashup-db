@@ -5,7 +5,7 @@ class MashupsController < ApplicationController
 
   def index
     query = params[:search].to_s
-    mcl = query.present? ? Mashup.search(query) : Mashup
+    mcl = query.present? ? Mashup.search(query) : Mashup.order_by_first_post_date
     @mashups = mcl.paginate(page: params[:page], per_page: 30)
   end
 
