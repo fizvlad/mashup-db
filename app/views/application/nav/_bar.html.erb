@@ -5,23 +5,26 @@
   </button>
   <div class="collapse navbar-collapse" id="navbar">
     <ul class="navbar-nav mr-auto">
-      <!--<li class="nav-item">
-        <%= link_to 'Home', root_path, class: 'nav-link' %>
-      </li>-->
+      <%= link_to 'Artists', artists_path, class: 'nav-link' %>
     </ul>
     <ul class="navbar-nav my-2 my-lg-0">
       <% if logged_in? %>
-        <span class="navbar-text">
+        <% if current_user.admin? %>
+          <li class="nav-item mx-2">
+            <%= link_to 'Admin panel', rails_admin_path, class: 'nav-link' %>
+          </li>
+        <% end %>
+        <li class="navbar-text mx-2">
           Logged in as <%= link_to current_user.username, user_path(current_user) %>
-        </span>
-        <li cass="nav-item my-2">
+        </li>
+        <li class="nav-item mx-2">
           <%= link_to 'Logout', logout_path, method: :delete, class: 'nav-link' %>
         </li>
       <% else %>
-        <li cass="nav-item my-2">
+        <li class="nav-item mx-2">
           <%= link_to 'Login', login_path, class: 'nav-link' %>
         </li>
-        <li cass="nav-item my-2">
+        <li class="nav-item mx-2">
           <%= link_to 'Signup', signup_path, class: 'nav-link' %>
         </li>
       <% end %>
