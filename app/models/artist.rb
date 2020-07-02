@@ -4,7 +4,7 @@ class Artist < ApplicationRecord
   has_many :audios, dependent: :destroy
 
   def mashups
-    Mashup.joins(:audio).where('audios.artist_id = ?', [id])
+    Mashup.joins(:audio).where('audios.artist_id = ?', id)
   end
 
   def self.search(query)
