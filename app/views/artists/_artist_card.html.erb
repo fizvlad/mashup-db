@@ -1,0 +1,12 @@
+<div class="card">
+  <div class="card-header">
+    <%= link_to artist.name, artist %>
+  </div>
+  <div class="card-body">
+    <div class="card-text">
+      <p>Created <%= pluralize(artist.mashups.count, 'mashup') %></p>
+      <p>Mentioned in <%= pluralize(artist.posts.count, 'post') %></p>
+      <p>Creating since <%= artist.posts.order(date: :asc).first.date.to_s(:timeless) %></p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="row justify-content-between p-2">
+  <div class="col-5">
+    <p class="h1">Artists</p>
+  </div>
+  <div class="col-5 offset-1 pt-2">
+    <%= form_with url: artists_path, method: :get, local: true, class: 'input-group' do |f| %>
+      <%= f.text_field :search, value: params[:search], class: 'form-control', placeholder: 'Artist name' %>
+      <div class="input-group-append">
+        <%= button_tag class: 'btn btn-outline-secondary', name: nil do %>
+          <%= fa_icon('search') %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="card-columns my-2">
+  <% @artists.each do |artist| %>
+    <%= render partial: 'artists/artist_card', locals: { artist: artist } %>
+  <% end %>
+</div>
+<div class="d-flex justify-content-center">
+  <%= will_paginate @artists, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
+</div>
