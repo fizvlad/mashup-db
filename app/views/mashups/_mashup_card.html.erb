@@ -1,14 +1,11 @@
 <div class="card">
-  <div class="card-header">
+  <div class="card-header pb-0">
     <p class="card-title">
       <%= link_to mashup.artist.name, mashup.artist %> - <%= link_to mashup.audio.title, mashup %>
     </p>
   </div>
   <div class="card-body">
     <div class="card-text">
-      <% if mashup.posts.count > 1 %>
-        <p>Mentioned in <%= pluralize(mashup.posts.count, 'post') %></p>
-      <% end %>
       <% if mashup.sources.any? %>
         <p><%= pluralize(mashup.sources.count, 'source') %></p>
       <% else %>
@@ -17,6 +14,11 @@
     </div>
   </div>
   <div class="card-footer">
-    <small class="text-muted"><%= link_to mashup.date.to_s(:custom), vk_posts_url(mashup.first_post.id) %></small>
+    <small class="text-muted">
+      <%= link_to mashup.date.to_s(:custom), vk_posts_url(mashup.first_post.id) %>
+      <% if mashup.posts.count > 1 %>
+        (<%= pluralize(mashup.posts.count, 'post') %>)
+      <% end %>
+    </small>
   </div>
 </div>
