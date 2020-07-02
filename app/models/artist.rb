@@ -7,6 +7,10 @@ class Artist < ApplicationRecord
     Mashup.joins(:audio).where('audios.artist_id = ?', id)
   end
 
+  def posts
+    Post.joins(mashups: :audio).where('audios.artist_id = ?', id)
+  end
+
   def self.search(query)
     self.where('name LIKE ?', "%#{sanitize_sql_like(query)}%")
   end
