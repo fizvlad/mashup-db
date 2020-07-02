@@ -7,9 +7,11 @@
   </div>
   <div class="col-8 offset-1">
     <h4>Mashups</h4>
-    <div class="card-columns my-2" style="column-count: 2;">
+    <div class="row">
       <% @artist.mashups.each do |mashup| %>
-        <%= render partial: 'mashups/mashup_card', locals: { mashup: mashup } %>
+        <div class="col-6 my-2">
+          <%= render partial: 'mashups/mashup_card', locals: { mashup: mashup } %>
+        </div>
       <% end %>
     </div>
   </div>
