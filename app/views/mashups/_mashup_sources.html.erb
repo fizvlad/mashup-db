@@ -1,0 +1,31 @@
+<div class="card <%= classes %>">
+  <div class="card-header">Sources</div>
+  <ul class="list-group list-group-flush">
+    <div id="sources_list">
+      <% mashup.sources.each do |s| %>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <span>
+            <span class="artist"><%= s.artist.name %></span> - <span class="title"><%= s.title %></span>
+          </span>
+          <button class="btn btn-secondary remove_sources_button" type="button">
+            <%= fa_icon('minus-circle') %>
+          </button>
+        </li>
+      <% end %>
+    </div>
+    <li class="list-group-item">
+      <div class="input-group m-0">
+        <input type="text" class="form-control border-0" placeholder="Artist" id="add_sources_artist">
+        <input type="text" class="form-control border-0" placeholder="Title" id="add_sources_title">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary rounded" type="button" id="add_sources_button">
+            <%= fa_icon('plus-circle') %>
+          </button>
+        </div>
+        <div class="invalid-feedback" id="add_sources_error"></div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+

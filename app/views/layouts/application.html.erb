@@ -9,6 +9,8 @@
 
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'stylesheet', 'data-turbolinks-track': 'reload' %>
+
+    <%= yield :page_scripts %>
   </head>
 
   <body>
