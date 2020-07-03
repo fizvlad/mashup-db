@@ -9,7 +9,9 @@ class ArtistsController < ApplicationController
     @artists = acl.paginate(page: params[:page], per_page: 30)
   end
 
-  def show; end
+  def show
+    @artist_mashups = @artist.mashups.paginate(page: params[:mashups_page], per_page: 10)
+  end
 
   private
 
