@@ -4,7 +4,7 @@
       <%= link_to mashup.artist.name, mashup.artist %> - <%= link_to mashup.audio.title, mashup %>
     </p>
   </div>
-  <div class="card-body">
+  <div class="card-body p-3">
     <div class="card-text">
       <% if mashup.sources.any? %>
         <p><%= pluralize(mashup.sources.count, 'source') %></p>
