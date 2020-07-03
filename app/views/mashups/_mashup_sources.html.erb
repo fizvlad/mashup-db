@@ -7,7 +7,7 @@
           <span>
             <span class="artist"><%= s.artist.name %></span> - <span class="title"><%= s.title %></span>
           </span>
-          <button class="btn btn-secondary remove_sources_button" type="button">
+          <button class="btn btn-secondary remove_sources_button" type="button" <%= 'disabled' unless logged_in? %>>
             <%= fa_icon('minus-circle') %>
           </button>
         </li>
@@ -18,7 +18,7 @@
         <input type="text" class="form-control border-0" placeholder="Artist" id="add_sources_artist">
         <input type="text" class="form-control border-0" placeholder="Title" id="add_sources_title">
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary rounded" type="button" id="add_sources_button">
+          <button class="btn btn-outline-secondary rounded" type="button" id="add_sources_button" <%= 'disabled' unless logged_in? %>>
             <%= fa_icon('plus-circle') %>
           </button>
         </div>
