@@ -9,6 +9,8 @@
     </div>
   </div>
   <div class="card-footer">
-    <small class="text-muted">Creating since <%= artist.posts.order(date: :asc).first.date.to_s(:custom_timeless) %></small>
+    <% if artist.posts.any? %>
+      <small class="text-muted">Creating since <%= artist.posts.order(date: :asc).first.date.to_s(:custom_timeless) %></small>
+    <% end %>
   </div>
 </div>

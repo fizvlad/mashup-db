@@ -6,7 +6,8 @@
     <%= render partial: 'artists/artist_related', locals: { artist: @artist } %>
   </div>
   <div class="col-8 offset-1">
-    <h4>Mashups</h4>
+    <%= render partial: 'artists/artist_statistics', locals: { artist: @artist, classes: 'mb-3' } %>
+    <h6>Mashups</h6>
     <div class="row">
       <% @artist_mashups.each do |mashup| %>
         <div class="col-6 my-2">

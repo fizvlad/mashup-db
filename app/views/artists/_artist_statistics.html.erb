@@ -1,0 +1,17 @@
+<div class="card <%= classes %>">
+  <div class="card-header">Statistics</div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <%= pluralize(artist.total_likes, 'like') %>
+    </li>
+    <li class="list-group-item">
+      <%= pluralize(artist.total_reposts, 'repost') %>
+    </li>
+    <li class="list-group-item">
+      <%= pluralize(artist.total_comments, 'comment') %>
+    </li>
+    <li class="list-group-item">
+      <%= pluralize(artist.total_views, 'view') %>
+    </li>
+  </ul>
+</div>

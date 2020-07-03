@@ -29,6 +29,22 @@ class Artist < ApplicationRecord
     re
   end
 
+  def total_likes
+    posts.sum(&:likes)
+  end
+
+  def total_reposts
+    posts.sum(&:reposts)
+  end
+
+  def total_comments
+    posts.sum(&:comments)
+  end
+
+  def total_views
+    posts.sum(&:views)
+  end
+
   def self.search(query)
     where('name LIKE ?', "%#{sanitize_sql_like(query)}%")
   end
