@@ -18,17 +18,13 @@ class Mashup < ApplicationRecord
     "#{artist.name} - #{audio.title}"
   end
 
-  def artist
-    audio.artist
-  end
+  delegate :artist, to: :audio
 
   def first_post
     posts.order(date: :asc).first
   end
 
-  def date
-    first_post.date
-  end
+  delegate :date, to: :first_post
 
   def related_user_ids
     re = posts.map(&:from_user)
@@ -45,11 +41,14 @@ class Mashup < ApplicationRecord
   end
 
   def self.search(query)
-    self.joins(audio: :artist)
-        .where('audios.title LIKE :q OR artists.name LIKE :q', { q: "%#{sanitize_sql_like(query)}%" })
+    joins(audio: :artist)
+      .where('audios.title LIKE :q OR artists.name LIKE :q', { q: "%#{sanitize_sql_like(query)}%" })
   end
 
   def self.order_by_first_post_date
-    self.joins(:posts).select('mashups.*, MIN(posts.date) AS first_post_date').group('mashups.id').order('first_post_date DESC')
+    joins(:posts)
+      .select('mashups.*, MIN(posts.date) AS first_post_date')
+      .group('mashups.id')
+      .order('first_post_date DESC')
   end
 end

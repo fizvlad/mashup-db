@@ -58,6 +58,7 @@ module VkWallParser
   def self.parse_posts(arr, timeout: 0)
     re = arr.map do |data|
       next nil if data[:marked_as_ads] != 0 # Not parsing ads
+
       sleep timeout
       parse_post(data)
     rescue StandardError => e
@@ -181,7 +182,7 @@ module VkWallParser
 
     def api_key
       @api_key_getter.call
-    rescue
+    rescue StandardError
       nil
     end
 

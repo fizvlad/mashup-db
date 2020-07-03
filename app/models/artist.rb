@@ -30,10 +30,13 @@ class Artist < ApplicationRecord
   end
 
   def self.search(query)
-    self.where('name LIKE ?', "%#{sanitize_sql_like(query)}%")
+    where('name LIKE ?', "%#{sanitize_sql_like(query)}%")
   end
 
   def self.order_by_audios_count
-    self.joins(:audios).select('artists.*, COUNT(artists.id) AS audios_count').group('artists.id').order('audios_count DESC')
+    joins(:audios)
+      .select('artists.*, COUNT(artists.id) AS audios_count')
+      .group('artists.id')
+      .order('audios_count DESC')
   end
 end

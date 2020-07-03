@@ -16,17 +16,9 @@ class MashupsController < ApplicationController
   def update_sources
     parameters = sources_params
     if parameters[:type] == 'add'
-      ActiveRecord::Base.transaction do
-        artist = Artist.find_or_create_by!(name: parameters[:artist])
-        audio = Audio.find_or_create_by!(artist_id: artist.id, title: parameters[:title])
-        @mashup.audios << audio unless @mashup.audio_ids.include?(audio.id)
-      end
+      add_source(@mashup, parameters)
     elsif parameters[:type] == 'remove'
-      ActiveRecord::Base.transaction do
-        artist = Artist.find_by!(name: parameters[:artist])
-        audio = Audio.find_by!(artist_id: artist.id, title: parameters[:title])
-        @mashup.audios.delete(audio)
-      end
+      remove_source(@mashup, parameters)
     else
       render json: { error: 'unknown `type`' }, status: :bad_request
     end
@@ -42,5 +34,21 @@ class MashupsController < ApplicationController
 
   def sources_params
     params.require(:sources).permit(:type, :artist, :title)
+  end
+
+  def add_source(mashup, parameters)
+    ActiveRecord::Base.transaction do
+      artist = Artist.find_or_create_by!(name: parameters[:artist])
+      audio = Audio.find_or_create_by!(artist_id: artist.id, title: parameters[:title])
+      mashup.audios << audio unless mashup.audio_ids.include?(audio.id)
+    end
+  end
+
+  def remove_source(mashup, parameters)
+    ActiveRecord::Base.transaction do
+      artist = Artist.find_by!(name: parameters[:artist])
+      audio = Audio.find_by!(artist_id: artist.id, title: parameters[:title])
+      mashup.audios.delete(audio)
+    end
   end
 end

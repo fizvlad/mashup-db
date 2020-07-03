@@ -3,6 +3,7 @@ require 'vk_wall_parser'
 module RailsAdmin
   module Config
     module Actions
+      # Post Model collection task to parse posts from VK.
       class ParsePosts < RailsAdmin::Config::Actions::Base
         RailsAdmin::Config::Actions.register(self)
 
@@ -40,13 +41,13 @@ module RailsAdmin
                 data = VkWallParser.wall_get_until(api_key, **parameters)
                 thr = Thread.new do
                   Rails.logger.info "Parsing #{data.size} posts"
-                  posts = VkWallParser.parse_posts(data)
+                  VkWallParser.parse_posts(data)
                   Rails.logger.info "Parsed #{data.size} posts"
                 end
                 thr.name = 'wall_parsing'
                 flash.notice = "Started parsing #{data.size} posts in separate thread"
               else
-                flash.alert = "Can not retrieve VK credentials!"
+                flash.alert = 'Can not retrieve VK credentials!'
               end
             elsif request.get?
               @maximum_post_id = Post.maximum('id')
