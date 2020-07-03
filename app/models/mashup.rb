@@ -30,8 +30,26 @@ class Mashup < ApplicationRecord
     first_post.date
   end
 
+  def related_user_ids
+    re = posts.map(&:from_user)
+    re.compact!
+    re.uniq!
+    re
+  end
+
+  def related_club_ids
+    re = posts.map(&:from_club)
+    re.compact!
+    re.uniq!
+    re
+  end
+
   def self.search(query)
     self.joins(audio: :artist)
         .where('audios.title LIKE :q OR artists.name LIKE :q', { q: "%#{sanitize_sql_like(query)}%" })
+  end
+
+  def self.order_by_first_post_date
+    self.joins(:posts).select('mashups.*, MIN(posts.date) AS first_post_date').group('mashups.id').order('first_post_date DESC')
   end
 end

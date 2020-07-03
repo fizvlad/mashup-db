@@ -5,7 +5,8 @@ Rails.application.routes.draw do
 
   resources :artists, only: %i[show index]
 
-  resources :mashups, only: %i[show index update]
+  resources :mashups, only: %i[show index]
+  put '/mashups/:id/sources', to: 'mashups#update_sources'
 
   resources :users, except: %i[new index]
   get 'signup', to: 'users#new', as: 'signup'

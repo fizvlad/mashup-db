@@ -16,4 +16,6 @@ const imagePath = (name) => images(name, true)
 
 document.addEventListener('turbolinks:load', () => {
   $('[data-toggle="tooltip"]').tooltip()
-})
+});
+
+window.jQuery = jQuery;

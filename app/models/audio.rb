@@ -4,6 +4,10 @@ class Audio < ApplicationRecord
 
   belongs_to :artist
 
+  def name
+    "#{artist.name} - #{title}"
+  end
+
   # @return [Mashup, nil] mashup if this audio is a mashup or nil.
   def mashup
     @mashup ||= Mashup.find_by(audio_id: id)

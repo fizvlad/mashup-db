@@ -7,10 +7,15 @@
   </div>
   <div class="col-8 offset-1">
     <h4>Mashups</h4>
-    <div class="card-columns my-2" style="column-count: 2;">
-      <% @artist.mashups.each do |mashup| %>
-        <%= render partial: 'mashups/mashup_card', locals: { mashup: mashup } %>
+    <div class="row">
+      <% @artist_mashups.each do |mashup| %>
+        <div class="col-6 my-2">
+          <%= render partial: 'mashups/mashup_card', locals: { mashup: mashup } %>
+        </div>
       <% end %>
+    </div>
+    <div class="d-flex justify-content-center">
+      <%= will_paginate @artist_mashups, renderer: WillPaginate::ActionView::BootstrapLinkRenderer, param_name: 'mashups_page' %>
     </div>
   </div>
 </div>
