@@ -13,6 +13,7 @@ function update_list(data) {
       </li>
     `);
   });
+  jQuery('.remove_sources_button').click(remove_source_click);
 }
 
 function add_source_click(event) {
@@ -47,9 +48,9 @@ function add_source_click(event) {
 }
 
 function remove_source_click(event) {
-  let list_item = jQuery(event.target).parent();
-  let artist = list_item.children('.artist').text().trim();
-  let title = list_item.children('.title').text().trim();
+  let list_item = jQuery(event.target).closest('li');
+  let artist = list_item.find('.artist').text().trim();
+  let title = list_item.find('.title').text().trim();
 
   re = jQuery.ajax({
     'data': {
