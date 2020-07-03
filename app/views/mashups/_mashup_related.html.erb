@@ -1,0 +1,58 @@
+<div id="ids_accordion">
+  <div class="card border-0">
+    <h5>
+      <button class="btn btn-link" data-toggle="collapse" data-target="#collapsePosts" aria-expanded="false" aria-controls="collapsePosts">
+        Related posts
+      </button>
+    </h5>
+    <div id="collapsePosts" class="collapse" data-parent="#ids_accordion">
+      <ul class="list-group list-group-flush">
+        <% mashup.posts.each do |post| %>
+          <li class="list-group-item">
+            <%= link_to post.date.to_s(:custom), vk_posts_url(post.id) %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+  <div class="card border-0">
+    <h5>
+      <button class="btn btn-link" data-toggle="collapse" data-target="#collapseUser" aria-expanded="false" aria-controls="collapseUser">
+        Related user IDs
+      </button>
+    </h5>
+    <div id="collapseUser" class="collapse" data-parent="#ids_accordion">
+      <ul class="list-group list-group-flush">
+        <% if mashup.related_user_ids.empty? %>
+          <li class="list-group-item">Nothing here :(</li>
+        <% else %>
+          <% mashup.related_user_ids.each do |id| %>
+            <li class="list-group-item">
+              <%= link_to id, vk_profile_url(id) %>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+  <div class="card border-0">
+    <h5>
+      <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseClub" aria-expanded="false" aria-controls="collapseClub">
+        Related club IDs
+      </button>
+    </h5>
+    <div id="collapseClub" class="collapse" data-parent="#ids_accordion">
+      <ul class="list-group list-group-flush">
+        <% if mashup.related_club_ids.empty? %>
+          <li class="list-group-item">Nothing here :(</li>
+        <% else %>
+          <% mashup.related_club_ids.each do |id| %>
+            <li class="list-group-item">
+              <%= link_to id, vk_profile_url(id) %>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

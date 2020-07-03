@@ -1,1 +1,16 @@
-<h1><%= @mashup.name %></h1>
+<% content_for :page_scripts do %>
+  <%= javascript_pack_tag 'mashups/source_list', 'data-turbolinks-track': 'reload' %>
+<% end %>
+
+<div class="row">
+  <h1><%= @mashup.audio.title %> <span class="h3 text-muted font-weight-lighter">by <%= link_to @mashup.artist.name, @mashup.artist %></span></h1>
+</div>
+<div class="row my-2">
+  <div class="col-3">
+    <%= render partial: 'mashups/mashup_related', locals: { mashup: @mashup } %>
+  </div>
+  <div class="col-8 offset-1">
+    <%= render partial: 'mashups/mashup_statistics', locals: { mashup: @mashup, classes: 'mt-3' } %>
+    <%= render partial: 'mashups/mashup_sources', locals: { mashup: @mashup, classes: 'mt-3' } %>
+  </div>
+</div>
